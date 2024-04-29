@@ -1,7 +1,9 @@
 import os
-from typing import Dict, Optional, List
+from pathlib import Path
+from typing import Dict, Optional, List, Any
 from .top_item_response import top_item_response_from_dict, TopItemResponseElement, AttachmentType, AlternateType
 from .attachment_response import attachment_response_from_dict
+from pyzotero import zotero as pyzot
 
 import httpx
 
@@ -19,6 +21,7 @@ class ZoteroClient:
         self.ZOTERO_LIBRARY_PREFIX = f"{LIBRARY_TYPE}/{self.LIBRARY_ID}"
         self.BASE_URL = f"{API_URL}/{self.ZOTERO_LIBRARY_PREFIX}"
         self.http_client = httpx.Client(headers=self.get_headers(), timeout=10, follow_redirects=True)
+        self.pyzot = pyzot.Zotero(self.LIBRARY_ID, 'user', self.ZOTERO_API_KEY)
 
     def get_headers(self) -> Dict[str, str]:
         return {
@@ -46,14 +49,26 @@ class ZoteroClient:
         return self.get_snapshot_html(snapshot_link)
 
     def get_snapshot_html(self, snapshot_href: str) -> str:
-        print(snapshot_href)
         res = self.http_client.get(snapshot_href, headers=self.get_headers())
-        # if res.status_code != 200:
-        #     raise Exception(f"Failed to fetch snapshot html: {res.status_code}")
         return res.text
 
     @staticmethod
     def filter_for_attachment_items(items: List[TopItemResponseElement]) -> List[TopItemResponseElement]:
         return [item for item in items if
                 item.links.attachment is not None and
+                '#converted' not in item.data.extra and
                 item.links.attachment.attachment_type is AttachmentType.TEXT_HTML]
+
+    def upload_pdf(self, item_key: str, pdf_path: Path) -> Dict[str, List]:
+        results = self.pyzot.attachment_simple([str(pdf_path)], item_key)
+        if len(results['failure']) > 0:
+            raise Exception(f"Failed to upload pdf: {results['failure']}")
+        return results
+
+    def add_extra_key_for_handled_conversion_in_zotero(self, item_key: str) -> Any:
+        item: Any = self.pyzot.item(item_key)
+        item['data']['extra'] += ' #converted'
+        return self.pyzot.update_item(item)
+
+    def set_date_to_access_date(self, item_key: str) -> Any:
+        raise NotImplementedError("This method is not implemented")
