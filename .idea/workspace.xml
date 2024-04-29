@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45da65a5-5597-41c5-9aa1-83cede050243" name="Changes" comment="update top items resposne">
+    <list default="true" id="45da65a5-5597-41c5-9aa1-83cede050243" name="Changes" comment="filter for html attachments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zotero/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/zotero/client.py" afterDir="false" />
     </list>
@@ -89,7 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714397136056</updated>
-      <workItem from="1714397137077" duration="2259000" />
+      <workItem from="1714397137077" duration="3409000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -131,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714399122195</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="filter for html attachments">
+      <option name="closed" value="true" />
+      <created>1714400290003</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1714400290003</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,9 +151,10 @@
     <MESSAGE value="update top-item-response.py" />
     <MESSAGE value="main adjustments" />
     <MESSAGE value="update top items resposne" />
-    <option name="LAST_COMMIT_MESSAGE" value="update top items resposne" />
+    <MESSAGE value="filter for html attachments" />
+    <option name="LAST_COMMIT_MESSAGE" value="filter for html attachments" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/zotero_snapshot_converter$main.coverage" NAME="main Coverage Results" MODIFIED="1714399132730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/zotero_snapshot_converter$main.coverage" NAME="main Coverage Results" MODIFIED="1714400456051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

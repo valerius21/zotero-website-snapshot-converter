@@ -18,6 +18,7 @@ class ZoteroClient:
         self.ZOTERO_API_VERSION = VERSION
         self.ZOTERO_LIBRARY_PREFIX = f"{LIBRARY_TYPE}/{self.LIBRARY_ID}"
         self.BASE_URL = f"{API_URL}/{self.ZOTERO_LIBRARY_PREFIX}"
+        self.http_client = httpx.Client(headers=self.get_headers(), timeout=10, follow_redirects=True)
 
     def get_headers(self) -> Dict[str, str]:
         return {
@@ -27,14 +28,14 @@ class ZoteroClient:
 
     def get_top_items(self) -> List[TopItemResponseElement]:
         url = f"{self.BASE_URL}/items/top"
-        res = httpx.get(url, headers=self.get_headers())
+        res = self.http_client.get(url, headers=self.get_headers())
         if res.status_code != 200:
             raise Exception(f"Failed to fetch top items: {res.text}")
         items = top_item_response_from_dict(res.json())
         return ZoteroClient.filter_for_attachment_items(items)
 
     def get_attachment_html(self, href: str) -> str:
-        res = httpx.get(href, headers=self.get_headers())
+        res = self.http_client.get(href, headers=self.get_headers())
         if res.status_code != 200:
             raise Exception(f"Failed to fetch attachment html: {res.text}")
         attachment_response = attachment_response_from_dict(res.json())
@@ -45,9 +46,10 @@ class ZoteroClient:
         return self.get_snapshot_html(snapshot_link)
 
     def get_snapshot_html(self, snapshot_href: str) -> str:
-        res = httpx.get(snapshot_href, headers=self.get_headers())
-        if res.status_code != 200:
-            raise Exception(f"Failed to fetch snapshot html: {res.text}")
+        print(snapshot_href)
+        res = self.http_client.get(snapshot_href, headers=self.get_headers())
+        # if res.status_code != 200:
+        #     raise Exception(f"Failed to fetch snapshot html: {res.status_code}")
         return res.text
 
     @staticmethod
