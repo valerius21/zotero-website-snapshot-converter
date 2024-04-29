@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45da65a5-5597-41c5-9aa1-83cede050243" name="Changes" comment="refactors and logging" />
+    <list default="true" id="45da65a5-5597-41c5-9aa1-83cede050243" name="Changes" comment="sort imports">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +90,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714397136056</updated>
-      <workItem from="1714397137077" duration="8764000" />
+      <workItem from="1714397137077" duration="12563000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -168,7 +172,23 @@
       <option name="project" value="LOCAL" />
       <updated>1714422799573</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="add docstrings">
+      <option name="closed" value="true" />
+      <created>1714423071590</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1714423071590</updated>
+    </task>
+    <task id="LOCAL-00012" summary="sort imports">
+      <option name="closed" value="true" />
+      <created>1714423111054</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1714423111054</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +205,9 @@
     <MESSAGE value="refactor pdf creation" />
     <MESSAGE value="upload new pdf" />
     <MESSAGE value="refactors and logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactors and logging" />
+    <MESSAGE value="add docstrings" />
+    <MESSAGE value="sort imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="sort imports" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/zotero_snapshot_converter$main.coverage" NAME="main Coverage Results" MODIFIED="1714422184888" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

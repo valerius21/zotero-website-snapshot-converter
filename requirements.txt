@@ -3,3 +3,4 @@ httpx~=0.27.0
 playwright~=1.43.0
 pyzotero~=1.5.18
 loguru~=0.7.2
+streamlit~=1.33.0
