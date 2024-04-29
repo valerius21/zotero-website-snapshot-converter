@@ -4,7 +4,6 @@ from typing import Optional, Any, List, Union, TypeVar, Type, Callable, cast
 from datetime import datetime
 import dateutil.parser
 
-
 T = TypeVar("T")
 EnumT = TypeVar("EnumT", bound=Enum)
 
@@ -247,7 +246,13 @@ class Data:
         genre = from_union([from_str, from_none], obj.get("genre"))
         archive_id = from_union([from_str, from_none], obj.get("archiveID"))
         series_number = from_union([from_str, from_none], obj.get("seriesNumber"))
-        return Data(key, version, item_type, title, creators, abstract_note, website_title, website_type, date, short_title, url, access_date, language, rights, extra, tags, collections, relations, date_added, date_modified, blog_title, publication_title, volume, issue, pages, series, series_title, series_text, journal_abbreviation, doi, issn, archive, archive_location, library_catalog, call_number, version_number, system, place, company, programming_language, isbn, proceedings_title, conference_name, publisher, identifier, type, repository, repository_location, format, citation_key, genre, archive_id, series_number)
+        return Data(key, version, item_type, title, creators, abstract_note, website_title, website_type, date,
+                    short_title, url, access_date, language, rights, extra, tags, collections, relations, date_added,
+                    date_modified, blog_title, publication_title, volume, issue, pages, series, series_title,
+                    series_text, journal_abbreviation, doi, issn, archive, archive_location, library_catalog,
+                    call_number, version_number, system, place, company, programming_language, isbn, proceedings_title,
+                    conference_name, publisher, identifier, type, repository, repository_location, format, citation_key,
+                    genre, archive_id, series_number)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -260,7 +265,8 @@ class Data:
         if self.title is not None:
             result["title"] = from_union([from_str, from_none], self.title)
         if self.creators is not None:
-            result["creators"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none], self.creators)
+            result["creators"] = from_union([lambda x: from_list(lambda x: to_class(Creator, x), x), from_none],
+                                            self.creators)
         if self.abstract_note is not None:
             result["abstractNote"] = from_union([from_str, from_none], self.abstract_note)
         if self.website_title is not None:
@@ -284,7 +290,8 @@ class Data:
         if self.tags is not None:
             result["tags"] = from_union([lambda x: from_list(lambda x: to_class(Tag, x), x), from_none], self.tags)
         if self.collections is not None:
-            result["collections"] = from_union([lambda x: from_list(lambda x: to_enum(Collection, x), x), from_none], self.collections)
+            result["collections"] = from_union([lambda x: from_list(lambda x: to_enum(Collection, x), x), from_none],
+                                               self.collections)
         if self.relations is not None:
             result["relations"] = from_union([lambda x: to_class(Relations, x), from_none], self.relations)
         if self.date_added is not None:
@@ -403,10 +410,6 @@ class LibraryLinks:
         return result
 
 
-class Name(Enum):
-    VALERIUS21 = "valerius21"
-
-
 class LibraryType(Enum):
     USER = "user"
 
@@ -415,7 +418,7 @@ class LibraryType(Enum):
 class Library:
     type: Optional[LibraryType] = None
     id: Optional[int] = None
-    name: Optional[Name] = None
+    name: Optional[str] = None
     links: Optional[LibraryLinks] = None
 
     @staticmethod
@@ -423,7 +426,7 @@ class Library:
         assert isinstance(obj, dict)
         type = from_union([LibraryType, from_none], obj.get("type"))
         id = from_union([from_int, from_none], obj.get("id"))
-        name = from_union([Name, from_none], obj.get("name"))
+        name = from_union([str, from_none], obj.get("name"))
         links = from_union([LibraryLinks.from_dict, from_none], obj.get("links"))
         return Library(type, id, name, links)
 
@@ -434,7 +437,7 @@ class Library:
         if self.id is not None:
             result["id"] = from_union([from_int, from_none], self.id)
         if self.name is not None:
-            result["name"] = from_union([lambda x: to_enum(Name, x), from_none], self.name)
+            result["name"] = from_union([lambda x: to_enum(str, x), from_none], self.name)
         if self.links is not None:
             result["links"] = from_union([lambda x: to_class(LibraryLinks, x), from_none], self.links)
         return result
@@ -468,7 +471,8 @@ class Attachment:
         if self.type is not None:
             result["type"] = from_union([lambda x: to_enum(AlternateType, x), from_none], self.type)
         if self.attachment_type is not None:
-            result["attachmentType"] = from_union([lambda x: to_enum(AttachmentType, x), from_none], self.attachment_type)
+            result["attachmentType"] = from_union([lambda x: to_enum(AttachmentType, x), from_none],
+                                                  self.attachment_type)
         if self.attachment_size is not None:
             result["attachmentSize"] = from_union([from_int, from_none], self.attachment_size)
         return result
@@ -508,7 +512,8 @@ class Meta:
     @staticmethod
     def from_dict(obj: Any) -> 'Meta':
         assert isinstance(obj, dict)
-        parsed_date = from_union([from_none, lambda x: from_union([from_datetime, lambda x: int(x)], from_str(x))], obj.get("parsedDate"))
+        parsed_date = from_union([from_none, lambda x: from_union([from_datetime, lambda x: int(x)], from_str(x))],
+                                 obj.get("parsedDate"))
         num_children = from_union([from_int, from_none], obj.get("numChildren"))
         creator_summary = from_union([from_str, from_none], obj.get("creatorSummary"))
         return Meta(parsed_date, num_children, creator_summary)
@@ -516,7 +521,11 @@ class Meta:
     def to_dict(self) -> dict:
         result: dict = {}
         if self.parsed_date is not None:
-            result["parsedDate"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: (lambda x: is_type(datetime, x))(x).isoformat())(x)), lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))], self.parsed_date)
+            result["parsedDate"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)),
+                                               lambda x: from_str(
+                                                   (lambda x: (lambda x: is_type(datetime, x))(x).isoformat())(x)),
+                                               lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))],
+                                              self.parsed_date)
         if self.num_children is not None:
             result["numChildren"] = from_union([from_int, from_none], self.num_children)
         if self.creator_summary is not None:

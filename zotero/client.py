@@ -1,5 +1,6 @@
 import os
 from typing import Dict, Optional
+from .top_item_response import top_item_response_from_dict
 
 import httpx
 
@@ -12,7 +13,7 @@ class ZoteroClient:
 
     def __init__(self, api_key: Optional[str] = "", library_id: Optional[str] = ""):
         self.ZOTERO_API_KEY = os.getenv('ZOTERO_API_KEY') or api_key
-        self.LIBRARY_ID = os.getenv('LIBRARY_ID') or library_id
+        self.LIBRARY_ID = os.getenv('ZOTERO_LIBRARY_ID') or library_id
         self.ZOTERO_API_VERSION = VERSION
         self.ZOTERO_LIBRARY_PREFIX = f"{LIBRARY_TYPE}/{self.LIBRARY_ID}"
         self.BASE_URL = f"{API_URL}/{self.ZOTERO_LIBRARY_PREFIX}"
@@ -26,4 +27,6 @@ class ZoteroClient:
     def get_top_items(self):
         url = f"{self.BASE_URL}/items/top"
         res = httpx.get(url, headers=self.get_headers())
-        return res.json()
+        if res.status_code != 200:
+            raise Exception(f"Failed to fetch top items: {res.text}")
+        return top_item_response_from_dict(res.json())
