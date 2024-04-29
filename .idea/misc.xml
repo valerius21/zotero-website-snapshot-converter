@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (zotero-snapshot-converter)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (zotero-snapshot-converter)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.12.3 Docker (zotero-snapshot-converter:latest)" project-jdk-type="Python SDK" />
 </project>

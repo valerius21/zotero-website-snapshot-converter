@@ -19,7 +19,6 @@ def process_items(items, zot):
         post_process_options(item, zot)
         logger.success(f'Processed "{item.data.title}"')
         ui_bar.progress((items.index(item) + 1) / len(items), text=f'Processed {item.data.title}')
-        break
 
 
 def post_process_options(item, zot):
@@ -65,5 +64,5 @@ if __name__ == '__main__':
         another_submit = st.form_submit_button('Process items')
     if not another_submit:
         st.stop()
-    ui_bar = st.progress(0, text="Press the button above to start processing items")
+    ui_bar = st.progress(0, text="Getting started...")
     process_items(items, zot)
