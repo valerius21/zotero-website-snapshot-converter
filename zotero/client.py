@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from typing import Dict, Optional, List, Any
+from urllib.parse import urlparse
+from loguru import logger
 from .top_item_response import top_item_response_from_dict, TopItemResponseElement, AttachmentType, AlternateType
 from .attachment_response import attachment_response_from_dict
 from pyzotero import zotero as pyzot
@@ -71,4 +73,28 @@ class ZoteroClient:
         return self.pyzot.update_item(item)
 
     def set_date_to_access_date(self, item_key: str) -> Any:
-        raise NotImplementedError("This method is not implemented")
+        item: Any = self.pyzot.item(item_key)
+        item['data']['date'] = item['data']['accessDate']
+        return self.pyzot.update_item(item)
+
+    def set_author_name_to_domain_name(self, item_key: str) -> Any:
+        item = self.pyzot.item(item_key)
+        if len(item['data']['creators']) == 0:
+            return self.update_to_url_author(item)
+
+    def update_to_url_author(self, item: Any):
+        new_author = ZoteroClient.get_domain(item['data']['url'])
+        logger.info(f'Author is empty, setting to domain name: {new_author}')
+        item['data']['creators'] = [{'creatorType': 'author',
+                                     'firstName': '',
+                                     'lastName': new_author}]
+        return self.pyzot.update_item(item)
+
+    @staticmethod
+    def get_domain(url: str) -> str:
+        parsed_url = urlparse(url)
+        domain_parts = parsed_url.netloc.split('.')
+        if len(domain_parts) > 2:
+            return '.'.join(domain_parts[-(len(domain_parts) - 1):])
+        else:
+            return parsed_url.netloc
