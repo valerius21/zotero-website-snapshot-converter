@@ -1,6 +1,7 @@
 import os
-from typing import Dict, Optional
-from .top_item_response import top_item_response_from_dict
+from typing import Dict, Optional, List
+from .top_item_response import top_item_response_from_dict, TopItemResponseElement, AttachmentType, AlternateType
+from .attachment_response import attachment_response_from_dict
 
 import httpx
 
@@ -24,9 +25,33 @@ class ZoteroClient:
             'Zotero-API-Version': self.ZOTERO_API_VERSION
         }
 
-    def get_top_items(self):
+    def get_top_items(self) -> List[TopItemResponseElement]:
         url = f"{self.BASE_URL}/items/top"
         res = httpx.get(url, headers=self.get_headers())
         if res.status_code != 200:
             raise Exception(f"Failed to fetch top items: {res.text}")
-        return top_item_response_from_dict(res.json())
+        items = top_item_response_from_dict(res.json())
+        return ZoteroClient.filter_for_attachment_items(items)
+
+    def get_attachment_html(self, href: str) -> str:
+        res = httpx.get(href, headers=self.get_headers())
+        if res.status_code != 200:
+            raise Exception(f"Failed to fetch attachment html: {res.text}")
+        attachment_response = attachment_response_from_dict(res.json())
+        snapshot_link = attachment_response.links.enclosure.href
+        attachment_type = attachment_response.links.enclosure.type
+        if attachment_type != 'text/html':
+            raise Exception(f"Attachment is not a webpage: {attachment_type}")
+        return self.get_snapshot_html(snapshot_link)
+
+    def get_snapshot_html(self, snapshot_href: str) -> str:
+        res = httpx.get(snapshot_href, headers=self.get_headers())
+        if res.status_code != 200:
+            raise Exception(f"Failed to fetch snapshot html: {res.text}")
+        return res.text
+
+    @staticmethod
+    def filter_for_attachment_items(items: List[TopItemResponseElement]) -> List[TopItemResponseElement]:
+        return [item for item in items if
+                item.links.attachment is not None and
+                item.links.attachment.attachment_type is AttachmentType.TEXT_HTML]
