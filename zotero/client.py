@@ -2,12 +2,13 @@ import os
 from pathlib import Path
 from typing import Dict, Optional, List, Any
 from urllib.parse import urlparse
-from loguru import logger
-from .top_item_response import top_item_response_from_dict, TopItemResponseElement, AttachmentType, AlternateType
-from .attachment_response import attachment_response_from_dict
-from pyzotero import zotero as pyzot
 
 import httpx
+from loguru import logger
+from pyzotero import zotero as pyzot
+
+from .attachment_response import attachment_response_from_dict
+from .top_item_response import top_item_response_from_dict, TopItemResponseElement, AttachmentType
 
 API_URL: str = "https://api.zotero.org"
 LIBRARY_TYPE: str = 'users'

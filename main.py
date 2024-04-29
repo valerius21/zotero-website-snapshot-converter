@@ -1,6 +1,7 @@
+from loguru import logger
+
 from pdf_converter.create_pdf import create_pdf_from_html
 from zotero.client import ZoteroClient
-from loguru import logger
 
 mark_as_converted: bool = True
 rename_date_from_access_date: bool = True
