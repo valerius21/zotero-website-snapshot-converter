@@ -8,6 +8,7 @@ LOAD_STATE: Literal["domcontentloaded", "load", "networkidle"] | None = 'domcont
 
 
 def create_pdf_from_html(html: str, output_file_path: str, timeout: Optional[float] = 30.) -> Tuple[Path, str]:
+    """Create a PDF from HTML."""
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()

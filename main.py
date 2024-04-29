@@ -8,12 +8,14 @@ rename_empty_author_to_domain_name: bool = True
 
 
 def main():
+    """Main function."""
     zot = ZoteroClient()
     items = zot.get_top_items()
     process_items(items, zot)
 
 
 def process_items(items, zot):
+    """Process the items."""
     for item in items:
         logger.info(f'Processing "{item.data.title}"')
         html = zot.get_attachment_html(item.links.attachment.href)
@@ -25,6 +27,7 @@ def process_items(items, zot):
 
 
 def post_process_options(item, zot):
+    """Apply post processing options to the item."""
     if mark_as_converted:
         logger.info(f'Marking item as converted for "{item.data.title}"')
         zot.add_extra_key_for_handled_conversion_in_zotero(item.key)
